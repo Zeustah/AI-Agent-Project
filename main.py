@@ -5,6 +5,8 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
+from prompts import system_prompt
+
 # Loads API Key
 load_dotenv()
 api_key = os.environ.get("GEMINI_API_KEY")
@@ -24,6 +26,7 @@ messages = [types.Content(role="user", parts=[types.Part(text=args.prompt)])]
 response = client.models.generate_content(
     model="gemini-2.5-flash",
     contents=messages,
+    config=types.GenerateContentConfig(system_instruction=system_prompt),
 )
 
 # Prints API response and token counts
